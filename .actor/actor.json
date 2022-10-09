@@ -1,0 +1,63 @@
+{
+    "actorSpecification": 1,
+    "name": "Google News Scraper",
+    "title": "Google News Scraper",
+    "version": "1.0.0",
+    "storages": {
+        "dataset": {
+            "actorSpecification": 1,
+            "views": {
+                "overview": {
+                    "title": "Overview",
+                    "transformation": {
+                        "fields": [
+                            "thumbnail",
+                            "title",
+                            "description",
+                            "priceCzk",
+                            "priceEur",
+                            "url",
+                            "sellerInfo.name"
+                        ],
+                        "flatten": [
+                            "sellerInfo"
+                        ]
+                    },
+                    "display": {
+                        "component": "table",
+                        "properties": {
+                            "thumbnail": {
+                                "label": "Image",
+                                "format": "image"
+                            },
+                            "title": {
+                                "label": "Title",
+                                "format": "text"
+                            },
+                            "description": {
+                                "label": "Description",
+                                "format": "text"
+                            },
+                            "priceCzk": {
+                                "label": "Price CZK",
+                                "format": "number"
+                            },
+                            "priceEur": {
+                                "label": "Price EUR",
+                                "format": "number"
+                            },
+                            "link": {
+                                "label": "URL",
+                                "format": "url"
+                            },
+                            "sellerInfo.name": {
+                                "label": "Seller",
+                                "format": "text"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

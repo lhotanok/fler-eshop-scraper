@@ -1,0 +1,35 @@
+{
+  "title": "Fler Scraper",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "sellerUrls": {
+      "title": "Seller URLs",
+      "type": "array",
+      "description": "Seller URLs to start with.",
+      "editor": "requestListSources",
+      "prefill": [
+        {
+          "url": "https://www.fler.cz/shop/findings"
+        }
+      ]
+    },
+    "proxyConfiguration": {
+      "title": "Proxy Configuration",
+      "type": "object",
+      "description": "Use either automatic Apify proxies or your own.",
+      "prefill": {
+        "useApifyProxy": true
+      },
+      "default": {
+        "useApifyProxy": true
+      },
+      "editor": "proxy",
+      "sectionCaption": "Advanced options (proxy configuration)"
+    }
+  },
+  "required": [
+    "sellerUrls",
+    "proxyConfiguration"
+  ]
+}
