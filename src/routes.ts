@@ -9,7 +9,6 @@ import {
     ATTRIBUTE_NAME_SELECTOR,
     ATTRIBUTE_SECTION_SELECTOR,
     ATTRIBUTE_VALUES_SELECTOR,
-    BESKYDO_SELLER_ID,
     CATEGORIES_SELECTOR,
     DOMAIN,
     DUMMY_PAYLOAD_PARAM,
@@ -55,7 +54,7 @@ router.addDefaultHandler(async ({ $, request: { url }, crawler }) => {
 
     log.info(`Found ${lastPage} pages with products`);
 
-    const sellerId = $(SELLER_ID_SELECTOR).attr(SELLER_ID_ATTR) || BESKYDO_SELLER_ID;
+    const sellerId = $(SELLER_ID_SELECTOR).attr(SELLER_ID_ATTR) || '';
 
     const requestQueue = crawler.requestQueue ? crawler.requestQueue : await Actor.openRequestQueue();
 

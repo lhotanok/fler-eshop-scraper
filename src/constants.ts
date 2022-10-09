@@ -21,8 +21,6 @@ export const RESULTS_PER_PAGE = 36;
 // Arbitrary 13-digit number
 export const DUMMY_PAYLOAD_PARAM = '1659623079243';
 
-export const BESKYDO_SELLER_ID = '5335';
-
 export const DOMAIN = 'www.fler.cz';
 
 export const API_REQUEST_HEADERS = {
