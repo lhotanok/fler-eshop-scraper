@@ -10,20 +10,3 @@ export const parseNumber = (text: string): number => {
     return Number(text.replace(/[^\d,.]+/g, '').replace(/,/g, '.'));
 };
 
-export const convertSizeToReadableFormat = (size: string) : string => {
-    const lowercaseSize = size.toLowerCase();
-    if (!lowercaseSize.includes('x')) {
-        return size;
-    }
-
-    let xCount = 0;
-
-    for (let index = 0; index < lowercaseSize.length; index++) {
-        const char = lowercaseSize[index];
-        if (char === 'x') {
-            xCount++;
-        }
-    }
-
-    return xCount <= 1 ? size : `${xCount}XL`;
-};
