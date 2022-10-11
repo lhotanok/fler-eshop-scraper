@@ -28,6 +28,7 @@ import {
 import {
     Attribute,
     Category,
+    PagesState,
     ProductInfo,
     ProductSimpleInfo,
     ResponseProductSimpleInfo,
@@ -37,7 +38,6 @@ import {
 
 import {
     buildUrl,
-    convertSizeToReadableFormat,
     parseNumber,
     shuffleChars
 } from './utils.js';
@@ -46,6 +46,8 @@ export const router = createCheerioRouter();
 
 router.addDefaultHandler(async ({ $, request: { url }, crawler }) => {
     log.info(`Extracting total number of pages`, { url });
+
+    const state = await crawler.useState<PagesState>();
 
     const paginationElements = $(PAGINATION_SELECTOR);
 
@@ -58,7 +60,7 @@ router.addDefaultHandler(async ({ $, request: { url }, crawler }) => {
 
     const requestQueue = crawler.requestQueue ? crawler.requestQueue : await Actor.openRequestQueue();
 
-    await enqueueApiListRequests(lastPage, sellerId, requestQueue);
+    await enqueueApiListRequests(lastPage, sellerId, requestQueue, state.remainingPages);
 });
 
 router.addHandler(LABELS.API_LIST, async ({ json, crawler, request: { userData: { page } } }) => {
@@ -67,9 +69,14 @@ router.addHandler(LABELS.API_LIST, async ({ json, crawler, request: { userData: 
     const productList = json.response.data.data_list.product_list;
     log.info(`Found ${productList.length} products on page ${page}`);
 
-    const requestQueue = crawler.requestQueue ? crawler.requestQueue : await Actor.openRequestQueue();
+    const requestQueue = await crawler.getRequestQueue();
+    const state = await crawler.useState<PagesState>();
 
     for (const product of productList) {
+        if (state.remainingPages <= 0) {
+            break;
+        }
+
         const sellerInfo = buildSellerInfo(product);
         const productInfo = buildProductInfo(product);
 
@@ -80,6 +87,8 @@ router.addHandler(LABELS.API_LIST, async ({ json, crawler, request: { userData: 
                 label: LABELS.DETAIL,
             },
         });
+
+        state.remainingPages--;
     }
 });
 
@@ -102,8 +111,19 @@ router.addHandler(LABELS.DETAIL, async ({ $, request: { url, userData: { simpleI
     await Actor.pushData(productInfo);
 });
 
-const enqueueApiListRequests = async (lastPage: number, sellerId: string, requestQueue: RequestQueue) => {
+const enqueueApiListRequests = async (
+    lastPage: number,
+    sellerId: string,
+    requestQueue: RequestQueue,
+    maxItems?: number
+) => {
+    let allowedItemsCount = maxItems || Number.MAX_SAFE_INTEGER;
+
     for (let offset = 0; offset < lastPage * RESULTS_PER_PAGE; offset += RESULTS_PER_PAGE) {
+        if (allowedItemsCount <= 0) {
+            break;
+        }
+
         const payload = `seller_shop=${sellerId}&offset=${offset}&conf=&_dummy=${shuffleChars(DUMMY_PAYLOAD_PARAM)}`;
 
         const url = 'https://www.fler.cz/component/default/product_listing/load_shop';
@@ -122,6 +142,8 @@ const enqueueApiListRequests = async (lastPage: number, sellerId: string, reques
                 label: LABELS.API_LIST,
             },
         });
+
+        allowedItemsCount -= RESULTS_PER_PAGE;
     }
 };
 
@@ -198,11 +220,7 @@ const parseAttributes = ($: CheerioRoot) : Attribute[] => {
 
     const attributes : Attribute[] = attributeSections.map((_i, el) => {
         const name = $(el).find(ATTRIBUTE_NAME_SELECTOR).text().trim();
-        const categories = parseCategories($, $(el).find(ATTRIBUTE_VALUES_SELECTOR));
-
-        const values = name.toLowerCase() !== 'velikost'
-            ? categories
-            : categories.map(({ name, url }) => ({ name: convertSizeToReadableFormat(name), url }));
+        const values = parseCategories($, $(el).find(ATTRIBUTE_VALUES_SELECTOR));
 
         return { name, values };
     }).toArray();

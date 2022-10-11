@@ -1,5 +1,6 @@
 export type InputSchema = {
     sellerUrls: Array<{ url: string }>;
+    maxItems?: number;
     proxyConfiguration: ProxyConfigurationInput;
 };
 
@@ -17,6 +18,10 @@ export type SellerInfo = {
     avatar: string;
     totalItems: number;
     soldItems: number;
+};
+
+export interface PagesState {
+    remainingPages: number;
 };
 
 export type ProductSimpleInfo = {

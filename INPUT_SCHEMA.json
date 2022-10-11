@@ -14,6 +14,14 @@
         }
       ]
     },
+    "maxItems": {
+      "title": "Max items",
+      "type": "integer",
+      "description": "Set the maximum number of items you want to scrape. If you leave this field unset, the actor will extract all products.",
+      "minimum": 0,
+      "prefill": 100,
+      "unit": "items"
+    },
     "proxyConfiguration": {
       "title": "Proxy Configuration",
       "type": "object",
