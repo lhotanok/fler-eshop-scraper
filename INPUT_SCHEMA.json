@@ -17,7 +17,7 @@
       "type": "integer",
       "description": "Set the maximum number of items you want to scrape. If you leave this field unset, the actor will extract all products.",
       "minimum": 0,
-      "prefill": 30,
+      "prefill": 20,
       "unit": "items"
     },
     "proxyConfiguration": {
