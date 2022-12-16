@@ -8,16 +8,22 @@ Each extracted product in the dataset stores information about its seller such a
 Apart from seller's info, you'll find the following data for the individual items:
 
  📿 Product name
+
 📷 Images
+
 💶 Price
+
 📜 Styled description
+
 🔖 Custom & Fler categories 
+
 🏷 Keywords
+
 🔵 Attributes
 
 ## Missing any features?
 
-Let us know if there're some extra features that would be useful for your projects. Some ideas of what could be added:
+Let us know if there're some extra features that would be useful for your projects. You can open an issue on GitHub or Apify platform to request new features or bug fixes. Some ideas of what could be added:
 
 - Product search based on categories or queries
 - Top products search
