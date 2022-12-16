@@ -7,11 +7,9 @@
       "title": "Seller URLs",
       "type": "array",
       "description": "Seller URLs to start with.",
-      "editor": "requestListSources",
+      "editor": "stringList",
       "prefill": [
-        {
-          "url": "https://www.fler.cz/shop/findings"
-        }
+        "https://www.fler.cz/shop/findings"
       ]
     },
     "maxItems": {
@@ -19,7 +17,7 @@
       "type": "integer",
       "description": "Set the maximum number of items you want to scrape. If you leave this field unset, the actor will extract all products.",
       "minimum": 0,
-      "prefill": 100,
+      "prefill": 30,
       "unit": "items"
     },
     "proxyConfiguration": {

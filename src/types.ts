@@ -1,5 +1,5 @@
 export type InputSchema = {
-    sellerUrls: Array<{ url: string }>;
+    sellerUrls: string[];
     maxItems?: number;
     proxyConfiguration: ProxyConfigurationInput;
 };

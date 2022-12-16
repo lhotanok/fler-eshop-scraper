@@ -6,7 +6,7 @@ import { InputSchema, PagesState } from './types.js';
 await Actor.init();
 
 const {
-    sellerUrls,
+    sellerUrls = [],
     maxItems,
     proxyConfiguration: proxyConfigurationInput,
 } = await Actor.getInput<InputSchema>() ?? {};
