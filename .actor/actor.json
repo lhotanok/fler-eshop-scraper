@@ -1,7 +1,7 @@
 {
     "actorSpecification": 1,
-    "name": "Google News Scraper",
-    "title": "Google News Scraper",
+    "name": "Fler Eshop Scraper",
+    "title": "Fler Eshop Scraper",
     "version": "1.0.0",
     "storages": {
         "dataset": {
